@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html> 
+    <head>
+        <title>AR.js Hello World Example</title>
+        <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+        <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    </head>
+    <body>
+    <a-scene
+        vr-mode-ui="enabled: false"
+        arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false;'
+        renderer='antialias: true; alpha: true'>
+            <a-camera gps-camera rotation-reader></a-camera>
+            <!-- Turin Office -->
+            <a-entity gps-entity-place='latitude: 45.069351; longitude: 7.675608' gltf-model="./oyster-lounge.gltf"></a-entity>
+            <!-- Oyster Lounge 959efc81-d882-4bc6-93cd-a74146c6fcbc (45.0740993,7.680769) -->
+            <a-entity gps-entity-place='latitude: 45.0740993; longitude: 7.680769'  gltf-model="./oyster-lounge.gltf"></a-entity>
+            <!-- Osteria al Tagliere f84d0f9d-6ebd-42ab-9526-e40810d55255 (45.07382,7.68074)  -->
+            <a-entity gps-entity-place='latitude: 45.07382; longitude: 7.68074'  gltf-model="./osteria-al-tagliere.gltf"></a-entity>
+            <!-- Osteria il Porto 970f782f-f43c-489b-9b39-d4f0246a8554 (45.0737789,7.6803807)  -->
+            <a-entity gps-entity-place='latitude: 45.0737789; longitude: 7.6803807'  gltf-model="./sibiriaki.gltf"></a-entity>
+            <!-- Sibiriaki cbd570e6-0860-4a05-bb10-653f30790699 (45.0741779,7.6807726)  -->
+            <a-entity gps-entity-place='latitude: 45.0741779; longitude: 7.6807726'  gltf-model="./las-rosas.gltf"></a-entity>
+            <!-- Las Rosas cucina messicana dal 1993 66382e8a-87eb-4675-8712-6630eb2d1e54 (45.0742836,7.6806756) -->
+            <a-entity gps-entity-place='latitude: 45.0742836; longitude: 7.6806756'  gltf-model="./las-rosas.gltf"></a-entity>
+    </a-scene>
+    </body>
+</html>
