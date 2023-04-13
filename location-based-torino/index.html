@@ -25,49 +25,43 @@
         <!-- Turin Office -->
         <a-entity gps-entity-place='latitude: 45.069351; longitude: 7.675608' gltf-model="./oyster-lounge.gltf"
             look-at="[gps-camera]">
-            <a-entity id="distance-label" geometry="primitive: plane; height: auto; width: auto;" material="color: blue"
-                scale="5 5 5" position="0 0.4 0" look-at="[gps-camera]" id="some-text"
+            <a-entity id="oyster-lounge-distance" geometry="primitive: plane; height: auto; width: auto;"
+                material="color: blue" scale="5 5 5" position="0 0.4 0" look-at="[gps-camera]" id="some-text"
                 text="value: Distance m"></a-entity>
         </a-entity>
 
         <!-- Oyster Lounge 959efc81-d882-4bc6-93cd-a74146c6fcbc (45.0740993,7.680769) -->
-        <a-entity gps-entity-place='latitude: 45.0740993; longitude: 7.680769'
-            gltf-model="./oyster-lounge.gltf"></a-entity>
+        <a-entity gps-entity-place='latitude: 45.0740993; longitude: 7.680769' gltf-model="./oyster-lounge.gltf">
+        </a-entity>
         <!-- Osteria al Tagliere f84d0f9d-6ebd-42ab-9526-e40810d55255 (45.07382,7.68074)  -->
-        <a-entity gps-entity-place='latitude: 45.07382; longitude: 7.68074'
-            gltf-model="./osteria-al-tagliere.gltf"></a-entity>
+        <a-entity gps-entity-place='latitude: 45.07382; longitude: 7.68074' gltf-model="./osteria-al-tagliere.gltf">
+            <a-entity id="osteria-al-tagliere-distance" geometry="primitive: plane; height: auto; width: auto;"
+                material="color: blue" scale="5 5 5" position="0 0.4 0" look-at="[gps-camera]" id="some-text"
+                text="value: Distance m"></a-entity>
+        </a-entity>
         <!-- Osteria il Porto 970f782f-f43c-489b-9b39-d4f0246a8554 (45.0737789,7.6803807)  -->
-        <a-entity gps-entity-place='latitude: 45.0737789; longitude: 7.6803807'
-            gltf-model="./sibiriaki.gltf"></a-entity>
+        <a-entity gps-entity-place='latitude: 45.0737789; longitude: 7.6803807' gltf-model="./osteria-del-porto.gltf">
+            <a-entity id="osteria-del-porto-distance" geometry="primitive: plane; height: auto; width: auto;"
+                material="color: blue" scale="5 5 5" position="0 0.4 0" look-at="[gps-camera]" id="some-text"
+                text="value: Distance m"></a-entity>
+        </a-entity>
         <!-- Sibiriaki cbd570e6-0860-4a05-bb10-653f30790699 (45.0741779,7.6807726)  -->
-        <a-entity gps-entity-place='latitude: 45.0741779; longitude: 7.6807726'
-            gltf-model="./las-rosas.gltf"></a-entity>
+        <a-entity gps-entity-place='latitude: 45.0741779; longitude: 7.6807726' gltf-model="./sibiriaki.gltf">
+            <a-entity id="sibiriaki-distance" geometry="primitive: plane; height: auto; width: auto;"
+                material="color: blue" scale="5 5 5" position="0 0.4 0" look-at="[gps-camera]" id="some-text"
+                text="value: Distance m"></a-entity>
+        </a-entity>
         <!-- Las Rosas cucina messicana dal 1993 66382e8a-87eb-4675-8712-6630eb2d1e54 (45.0742836,7.6806756) -->
-        <a-entity gps-entity-place='latitude: 45.0742836; longitude: 7.6806756'
-            gltf-model="./las-rosas.gltf"></a-entity>
+        <a-entity gps-entity-place='latitude: 45.0742836; longitude: 7.6806756' gltf-model="./las-rosas.gltf">
+            <a-entity id="las-rosas-distance" geometry="primitive: plane; height: auto; width: auto;"
+                material="color: blue" scale="5 5 5" position="0 0.4 0" look-at="[gps-camera]" id="some-text"
+                text="value: Distance m"></a-entity>
+        </a-entity>
     </a-scene>
 
     <script>
-        function showPosition() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (location) {
-                    position = {
-                        lat: location.coords.latitude,
-                        lon: location.coords.longitude
-                    }
-
-                    const dist = distance(position.lat, position.lon, 45.071283, 7.676346).toFixed(0);
-                    const flooredDist = Math.round(dist / 10) * 10;
-
-                    const consoleElem = document.getElementById("console");
-                    consoleElem.innerHTML = JSON.stringify(dist);
-
-                    const distanceLabel = document.getElementById("distance-label");
-                    distanceLabel.setAttribute('text', `value: ${JSON.stringify(flooredDist)} m`);
-                });
-            } else {
-                console.log("Geolocation is not supported by this browser.");
-            }
+        function deg2rad(deg) {
+            return deg * (Math.PI / 180)
         }
 
         function distance(lat1, lon1, lat2, lon2) {
@@ -84,8 +78,62 @@
             return d;
         }
 
-        function deg2rad(deg) {
-            return deg * (Math.PI / 180)
+        function computeEntityDistanceInMeters({ lat, lon }) {
+            if (!navigator.geolocation) {
+                console.log("Geolocation is not supported by this browser.");
+                return;
+            }
+
+            return new Promise((res, rej) => {
+                navigator.geolocation.getCurrentPosition(function (location) {
+                    position = {
+                        lat: location.coords.latitude,
+                        lon: location.coords.longitude
+                    }
+
+                    const dist = distance(position.lat, position.lon, lat, lon).toFixed(0);
+                    const flooredDist = Math.round(dist / 10) * 10;
+                    console.log(flooredDist)
+                    return flooredDist;
+                });
+            })
+        }
+
+        function updateEntityPosition({ id, lat, lon }) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (location) {
+                    position = {
+                        lat: location.coords.latitude,
+                        lon: location.coords.longitude
+                    }
+
+                    const dist = distance(position.lat, position.lon, lat, lon).toFixed(0);
+                    const flooredDist = Math.round(dist / 10) * 10;
+
+                    // const consoleElem = document.getElementById("console");
+                    // consoleElem.innerHTML = JSON.stringify(dist);
+
+                    const distanceLabel = document.getElementById(id);
+                    distanceLabel.setAttribute('text', `value: ${JSON.stringify(flooredDist)} m`);
+                });
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function updateUi() {
+            const distanceLabels = [
+                'oyster-lounge-distance',
+                'osteria-al-tagliere-distance',
+                'osteria-del-porto-distance',
+                'sibiriaki-distance',
+                'las-rosas-distance'
+            ]
+
+            distanceLabels.forEach(label => {
+                const distance =
+                    updateEntityPosition({ id: label, lat: 45.071283, lon: 7.676346 })
+            })
         }
 
         function getCameraPos() {
@@ -97,7 +145,7 @@
             return camera.getAttribute('position');
         }
 
-        setInterval(showPosition, 1000);
+        setInterval(updateUi, 1000);
     </script>
 </body>
 
