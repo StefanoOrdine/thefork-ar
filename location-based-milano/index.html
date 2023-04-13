@@ -14,17 +14,15 @@
 
     <a-scene vr-mode-ui="enabled: false" arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false;'
         renderer='antialias: true; alpha: true'>
-        <a-camera gps-camera='simulateLatitude: 45.472840; simulateLongitude: 9.194963;' rotation-reader></a-camera>
+        <a-camera gps-camera rotation-reader></a-camera>
         <!-- Milan Office -->
         <a-entity gps-entity-place='latitude: 45.472387; longitude: 9.195572' gltf-model="./sibiriaki.gltf"></a-entity>
         <!-- Off the Poke 190e1d50-8cf5-460c-a6d3-79e48104da93 (45.4723927,9.1944704) -->
         <a-entity gps-entity-place='latitude: 45.4723927; longitude: 9.1944704'
             gltf-model="./off-the-poke-milano.gltf"></a-entity>
         <!-- Visionnaire Bistrot by Filippo Gozzoli da101b81-63b5-4737-97bc-915b17b281fd (45.4729359,9.1949009) -->
-        <a-entity gps-entity-place='latitude: 45.4729359; longitude: 9.1949009' look-at='[gps-camera]'
+        <a-entity gps-entity-place='latitude: 45.4729359; longitude: 9.1949009'
             gltf-model="./visionnaire-milano.gltf"></a-entity>
-
-        <a-sphere gps-entity-place='latitude: 45.4729999; longitude: 9.1949999' color="#FAFAFA" radius="0.5"></a-sphere>
         <!-- Ristorante Conte Camillo 8b329767-512e-404a-a071-c7d0f3c4857b (45.4726254,9.1944131) -->
         <a-entity gps-entity-place='latitude: 45.4726254; longitude: 9.1944131'
             gltf-model="./conte-camillo-milano.gltf"></a-entity>
